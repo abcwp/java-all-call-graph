@@ -132,7 +132,7 @@ public abstract class AbstractRunnerGenCallGraph extends AbstractRunner {
             sql = "select class_name from ((select " + DC.MC_CALLER_CLASS_NAME + " as class_name from " + JACGConstants.TABLE_PREFIX_METHOD_CALL + confInfo.getAppName() +
                     " where " + DC.MC_CALLER_CLASS_NAME + " = ? limit 1) union all (select " + DC.MC_CALLEE_CLASS_NAME + " as class_name " +
                     "from " + JACGConstants.TABLE_PREFIX_METHOD_CALL + confInfo.getAppName() +
-                    " where " + DC.MC_CALLEE_CLASS_NAME + " = ? limit 1)) as az";
+                    " where " + DC.MC_CALLEE_FULL_CLASS_NAME + " = ? limit 1)) as az";
             cacheSql(sqlKey, sql);
         }
 

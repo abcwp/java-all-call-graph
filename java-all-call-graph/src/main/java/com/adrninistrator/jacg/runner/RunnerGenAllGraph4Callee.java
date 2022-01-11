@@ -91,11 +91,11 @@ public class RunnerGenAllGraph4Callee extends AbstractRunnerGenCallGraph {
         Set<String> classNameSet = new HashSet<>(taskSet.size());
         for (String task : taskSet) {
             // 获取简单类名
-            String className = getSimpleClassName(task);
+            /*String className = getSimpleClassName(task);
             if (className == null) {
                 return false;
-            }
-            classNameSet.add(className);
+            }*/
+            classNameSet.add(task);
         }
 
         // 判断是否需要处理sql_mode
@@ -202,9 +202,9 @@ public class RunnerGenAllGraph4Callee extends AbstractRunnerGenCallGraph {
     }
 
     // 处理一条记录
-    private boolean handleOneRecord(String calleeClassName) {
+    private boolean handleOneRecord(String calleeFullClassName) {
         // 从方法调用关系表查询指定的类是否存在
-        if (!checkClassNameExists(calleeClassName)) {
+        if (!checkClassNameExists(calleeFullClassName)) {
             return false;
         }
 
@@ -213,7 +213,7 @@ public class RunnerGenAllGraph4Callee extends AbstractRunnerGenCallGraph {
         String sql = sqlCacheMap.get(sqlKey);
         if (sql == null) {
             sql = "select distinct(" + DC.MC_CALLEE_METHOD_HASH + ")," + DC.MC_CALLEE_FULL_METHOD + " from " +
-                    JACGConstants.TABLE_PREFIX_METHOD_CALL + confInfo.getAppName() + " where " + DC.MC_CALLEE_CLASS_NAME +
+                    JACGConstants.TABLE_PREFIX_METHOD_CALL + confInfo.getAppName() + " where " + DC.MC_CALLEE_FULL_CLASS_NAME +
                     "= ? order by " + DC.MC_CALLEE_METHOD_NAME;
             cacheSql(sqlKey, sql);
         }
@@ -242,16 +242,16 @@ public class RunnerGenAllGraph4Callee extends AbstractRunnerGenCallGraph {
             }
         }
 
-        List<Map<String, Object>> calleeMethodList = dbOperator.queryList(connection, false, sql, new Object[]{calleeClassName});
+        List<Map<String, Object>> calleeMethodList = dbOperator.queryList(connection, false, sql, new Object[]{calleeFullClassName});
         dbOperator.closeConnection(connection);
 
         if (CommonUtil.isCollectionEmpty(calleeMethodList)) {
-            logger.error("从方法调用关系表未找到被调用类对应方法 [{}] [{}]", sql, calleeClassName);
+            logger.error("从方法调用关系表未找到被调用类对应方法 [{}] [{}]", sql, calleeFullClassName);
             return false;
         }
 
         // 确定当前类对应输出文件名，格式: 配置文件中指定的类名.txt
-        String outputFile4ClassName = outputDirPrefix + File.separator + calleeClassName + JACGConstants.EXT_TXT;
+        String outputFile4ClassName = outputDirPrefix + File.separator + calleeFullClassName + JACGConstants.EXT_TXT;
         logger.info("当前类输出文件名 {}", outputFile4ClassName);
 
         try (BufferedWriter out4Class = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile4ClassName),
@@ -270,17 +270,17 @@ public class RunnerGenAllGraph4Callee extends AbstractRunnerGenCallGraph {
                 if (confInfo.isGenUpwardsMethodsFile()) {
                     String methodName = CommonUtil.getOnlyMethodName(calleeFullMethod);
                     String safeMethodName = CommonUtil.getSafeMethodName(methodName);
-                    String outputFile4Method = outputDirPrefix + File.separator + JACGConstants.DIR_METHODS + File.separator + calleeClassName +
+                    String outputFile4Method = outputDirPrefix + File.separator + JACGConstants.DIR_METHODS + File.separator + calleeFullClassName +
                             JACGConstants.FLAG_AT + safeMethodName + JACGConstants.FLAG_AT + calleeMethodHash + JACGConstants.EXT_TXT;
                     logger.info("当前方法输出文件名 {}", outputFile4Method);
                     BufferedWriter out4Method = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile4Method),
                             StandardCharsets.UTF_8));
 
-                    handleOneCalleeMethod(calleeClassName, calleeMethodHash, calleeFullMethod, out4Class, out4Method);
+                    handleOneCalleeMethod(calleeFullClassName, calleeMethodHash, calleeFullMethod, out4Class, out4Method);
 
                     IOUtils.close(out4Method);
                 } else {
-                    handleOneCalleeMethod(calleeClassName, calleeMethodHash, calleeFullMethod, out4Class, null);
+                    handleOneCalleeMethod(calleeFullClassName, calleeMethodHash, calleeFullMethod, out4Class, null);
                 }
 
                 // 每个方法信息间插入一条空行

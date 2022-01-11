@@ -1,48 +1,48 @@
--- ²éÕÒÖØÃûÀà
+-- æŸ¥æ‰¾é‡åç±»
 select full_name, simple_name from class_name_wfts_fcts_adm where simple_name in
 (
 select simple_name from class_name_wfts_fcts_adm group by simple_name having count(simple_name) > 1
 )
 
--- ²éÕÒÖØÃûÀà·½·¨µ÷ÓÃ
+-- æŸ¥æ‰¾é‡åç±»æ–¹æ³•è°ƒç”¨
 select * from method_call_wfts_fcts_adm where caller_class_name like '%.%'
 select * from method_call_wfts_fcts_adm where callee_class_name like '%.%'
 
--- ²éÕÒ×î³¤µÄ·½·¨Ãû³¤¶È
+-- æŸ¥æ‰¾æœ€é•¿çš„æ–¹æ³•åé•¿åº¦
 select max(length(caller_method)),max(length(callee_method)) from method_call_wfts_fcts_adm
 
--- ²éÕÒÌØ¶¨ÀàÃû
+-- æŸ¥æ‰¾ç‰¹å®šç±»å
 select * from method_call_wfts_fcts_adm where caller_full_class_name like '%.dto.%'
 select * from method_call_wfts_fcts_adm where callee_full_class_name like '%.entity.%'
 
--- ²éÕÒÌØ¶¨¹Ø¼ü×Ö·½·¨
+-- æŸ¥æ‰¾ç‰¹å®šå…³é”®å­—æ–¹æ³•
 select * from method_call_wfts_fcts_adm where caller_method like '%<init%'
 select * from method_call_wfts_fcts_adm where callee_method like '%<init%'
 
--- ²éÕÒÈ¥ÖØÍêÕûÀàÃû
+-- æŸ¥æ‰¾å»é‡å®Œæ•´ç±»å
 select distinct(caller_full_class_name) from method_call_wfts_fcts_adm order by caller_full_class_name
 select distinct(callee_full_class_name) from method_call_wfts_fcts_adm order by callee_full_class_name
 
--- ²éÕÒ±»µ÷ÓÃ´ÎÊı×î¶àµÄ·½·¨
+-- æŸ¥æ‰¾è¢«è°ƒç”¨æ¬¡æ•°æœ€å¤šçš„æ–¹æ³•
 select r.method, count(r.method) as cm from
 (
 select concat(callee_full_class_name,':',callee_method_name) as method from method_call_wfts_fcts_adm
 ) as r group by method order by cm desc
 
--- ²éÕÒ±»µ÷ÓÃ´ÎÊı×î¶àµÄÀà
+-- æŸ¥æ‰¾è¢«è°ƒç”¨æ¬¡æ•°æœ€å¤šçš„ç±»
 select callee_full_class_name, count(callee_full_class_name) as cc from method_call_wfts_fcts_adm group by callee_full_class_name order by cc desc
 
--- ²éÕÒ°üº¬¹Ø¼ü×ÖµÄÈ¥ÖØÍêÕûÀàÃû
+-- æŸ¥æ‰¾åŒ…å«å…³é”®å­—çš„å»é‡å®Œæ•´ç±»å
 select distinct(caller_full_class_name) from method_call_wfts_fcts_adm where caller_full_class_name like '%.proto.%'
 select distinct(callee_full_class_name) from method_call_wfts_fcts_adm where callee_full_class_name like '%.proto.%'
 
--- ²éÕÒÈ¥ÖØ·½·¨Ãû
+-- æŸ¥æ‰¾å»é‡æ–¹æ³•å
 select caller_method_name,count(caller_method_name) as cc from method_call_wfts_fcts_adm group by caller_method_name order by cc desc, caller_method_name
 select callee_method_name,count(callee_method_name) as cc from method_call_wfts_fcts_adm group by callee_method_name order by cc desc, callee_method_name
 
--- ²éÕÒÌØ¶¨·½·¨Ãû
+-- æŸ¥æ‰¾ç‰¹å®šæ–¹æ³•å
 select * from method_call_wfts_fcts_adm where caller_method_name = ''
 select * from method_call_wfts_fcts_adm where callee_method_name = ''
 
--- ²éÕÒÌØ¶¨±»µ÷ÓÃ·½·¨Ãû¼°¶ÔÓ¦µÄÀà
+-- æŸ¥æ‰¾ç‰¹å®šè¢«è°ƒç”¨æ–¹æ³•ååŠå¯¹åº”çš„ç±»
 select distinct(callee_full_class_name), callee_method_name from method_call_wfts_fcts_adm where callee_method_name in ('toDenseJson','')
