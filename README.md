@@ -106,7 +106,7 @@ testImplementation 'com.github.adrninistrator:java-all-call-graph:0.5.1'
   <groupId>com.github.adrninistrator</groupId>
   <artifactId>java-all-call-graph</artifactId>
   <version>0.5.1</version>
-  <type>provided</type>
+  <scope>provided</scope>
 </dependency>
 ```
 
