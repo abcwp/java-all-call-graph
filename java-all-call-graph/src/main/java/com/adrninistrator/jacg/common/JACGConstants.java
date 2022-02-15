@@ -96,6 +96,10 @@ public class JACGConstants {
     public static final String KEY_SHOW_CALLER_LINE_NUM = "show.caller.line.num";
     public static final String KEY_GEN_UPWARDS_METHODS_FILE = "gen.upwards.methods.file";
 
+    public static final String COMBINE_FILE_NAME_4_CALLEE_PRO = "full.callee.file.path.pro";
+    public static final String COMBINE_FILE_NAME_4_CALLEE_DEV = "full.callee.file.path.dev";
+    public static final String COMBINE_FILE_NAME_4_CALLEE_COMPARE = "full.callee.file.path.compare";
+
     public static final String KEY_DB_DRIVER_NAME = "db.driver.name";
     public static final String KEY_DB_URL = "db.url";
     public static final String KEY_DB_USERNAME = "db.username";
@@ -163,6 +167,7 @@ public class JACGConstants {
 
     public static final String EXT_TXT = ".txt";
     public static final String EXT_MD = ".md";
+    public static final String EXT_XLSX = ".xlsx";
 
     public static final String NEW_LINE = "\n";
 

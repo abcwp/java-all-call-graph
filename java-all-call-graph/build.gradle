@@ -69,14 +69,18 @@ List jackson = [
 
 List dom4j = ['dom4j:dom4j:1.6.1']
 
+List hutool = ['cn.hutool:hutool-all:4.5.15']
+
 List log4j = [
         'org.apache.logging.log4j:log4j-api:2.14.1',
         'org.apache.logging.log4j:log4j-core:2.14.1',
         'org.apache.logging.log4j:log4j-slf4j-impl:2.14.1'
 ]
 
+List poi = ['org.apache.poi:poi-ooxml:3.17']
+
 dependencies {
-    compile apache_common, c3p0, mysql, slf4j, java_callgraph, jackson, dom4j,log4j
+    compile apache_common, c3p0, mysql, slf4j, java_callgraph, jackson, dom4j, log4j, hutool, poi
     //testImplementation log4j
 }
 
