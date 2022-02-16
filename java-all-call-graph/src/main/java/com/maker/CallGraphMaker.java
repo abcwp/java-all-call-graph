@@ -40,17 +40,6 @@ public class CallGraphMaker {
     private static String[] headers1 = {"序号", "主键", "类名", "方法名", "方法被调用次数统计", "方法影响功能数统计", "备注"};
     private static String[] headers2 = {"主键", "类名", "方法名", "方法被调用次数统计", "方法影响功能数统计"};
 
-    public static void main(String[] args) {
-        try {
-            long startTime = System.currentTimeMillis();
-            new CallGraphMaker().run();
-            long spendTime = System.currentTimeMillis() - startTime;
-            logger.info("耗时: {} s", spendTime / 1000.0D);
-        } catch (Exception e) {
-            logger.error(e);
-        }
-    }
-
     public void run() throws Exception {
         //初始化
         init();
