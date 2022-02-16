@@ -20,8 +20,8 @@ import org.dom4j.tree.DefaultText;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -332,7 +332,7 @@ public class GetMybatisSqlInfoCodeParser extends AbstractCustomCodeParser {
 
     class NoOpEntityResolver implements EntityResolver {
         public InputSource resolveEntity(String publicId, String systemId) {
-            return new InputSource(new StringBufferInputStream(""));
+            return new InputSource(new ByteArrayInputStream("".getBytes()));
         }
     }
 }
